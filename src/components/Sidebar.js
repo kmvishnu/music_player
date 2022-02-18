@@ -19,6 +19,7 @@ import Player from './Player'
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PlaylistPlayIcon from '@mui/icons-material/PlaylistPlay';
 import Table from './Table'
+
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -97,6 +98,8 @@ export default function MiniDrawer() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+   
+
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -151,8 +154,10 @@ export default function MiniDrawer() {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-             <Table/>
-            <Player/>
+        <br/>
+           <div className='MYstyle'><Player/></div>   
+            <div> <br/><Table/></div>
+           
       </Box>
     </Box>
   );

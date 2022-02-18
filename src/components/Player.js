@@ -14,6 +14,7 @@ import VolumeDownRounded from '@mui/icons-material/VolumeDownRounded';
 import axios from "axios"
 import { useEffect , useState} from "react"
 import {Howl , Howler} from 'howler'
+import BasicTable from './Table'
 
 
 
@@ -21,7 +22,7 @@ import {Howl , Howler} from 'howler'
 const Widget = styled('div')(({ theme }) => ({
   padding: 16,
   borderRadius: 16,
-  width: 343,
+  width: '100%',
   maxWidth: '100%',
   margin: 'auto',
   position: 'relative',
@@ -76,7 +77,7 @@ export default function MusicPlayerSlider() {
  
 
   const SoundPlay = (src) => {
-    const sound =new Howl({src:[songs[5].url]})
+    const sound =new Howl({src:BasicTable.currentSong})
     setPaused(!paused)
     console.log(paused)
     if (paused === true){
@@ -101,8 +102,8 @@ export default function MusicPlayerSlider() {
   }
   return (
    
-    <div className="hi">
-    <Box sx={{ width: '100%', overflow: 'hidden' }}>
+    <div className="hi" >
+    <Box sx={{ width: '100%', overflow: 'hidden' }} >
       <Widget>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <CoverImage>
