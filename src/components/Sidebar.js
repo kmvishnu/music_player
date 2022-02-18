@@ -19,6 +19,9 @@ import Player from './Player'
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PlaylistPlayIcon from '@mui/icons-material/PlaylistPlay';
 import Table from './Table'
+import Search from './Search'
+import { useState,useEffect } from 'react';
+import axios from 'axios';
 
 const drawerWidth = 240;
 
@@ -90,6 +93,10 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export default function MiniDrawer() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [songs,setSongs] = useState(0)
+  const [loading,setLoading] =useState(true)
+  const [currentSong,SetCurrentSong] = useState(4)
+  
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -99,9 +106,20 @@ export default function MiniDrawer() {
     setOpen(false);
   };
    
+  useEffect(()=>{
+    axios.get("http://127.0.0.1:5000/findmusic").then(
+        (response)=>{
+          setSongs(response.data)
+          setLoading(false)
+        }).catch(
+            error=>console.log(error))}
+            ,[])
 
-
+  if (loading){
+    return <div className='hi'>Loading</div>
+  }
   return (
+    <div className='hi'>
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
@@ -154,11 +172,11 @@ export default function MiniDrawer() {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-        <br/>
-           <div className='MYstyle'><Player/></div>   
-            <div> <br/><Table/></div>
+        <Search/>
+           <div className='MYstyle'><Player songs={songs} currentSong={currentSong} SetCurrentSong={SetCurrentSong} /></div>   
+            <div> <br/><Table songs={songs} currentSong={currentSong} SetCurrentSong={SetCurrentSong}/></div>
            
       </Box>
-    </Box>
+    </Box></div>
   );
 }

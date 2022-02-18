@@ -11,13 +11,7 @@ import FastForwardRounded from '@mui/icons-material/FastForwardRounded';
 import FastRewindRounded from '@mui/icons-material/FastRewindRounded';
 import VolumeUpRounded from '@mui/icons-material/VolumeUpRounded';
 import VolumeDownRounded from '@mui/icons-material/VolumeDownRounded';
-import axios from "axios"
-import { useEffect , useState} from "react"
-import {Howl , Howler} from 'howler'
-import BasicTable from './Table'
-
-
-
+import { useEffect,useState } from 'react';
 
 const Widget = styled('div')(({ theme }) => ({
   padding: 16,
@@ -52,43 +46,48 @@ const TinyText = styled(Typography)({
   letterSpacing: 0.2,
 });
 
-export default function MusicPlayerSlider() {
+export default function MusicPlayerSlider(props) {
 
-  const [songs,setSongs] = useState(0)
-  const [loading,setLoading] =useState(true)
-
-  useEffect(()=>{
-      axios.get("http://127.0.0.1:5000/findmusic").then(
-          (response)=>{
-            setSongs(response.data)
-            setLoading(false)
-          }).catch(
-              error=>console.log(error))}
-              ,[])
-
-  console.log(songs)
+  const songs = props.songs
+  const currentSong =props.currentSong
+  const SetCurrentSong=props.SetCurrentSong
           
   const theme = useTheme();
   const duration = 200; // seconds
   const [position, setPosition] = React.useState(32);
-  const [paused, setPaused] = React.useState(true);
- 
- 
- 
+  // const [paused, setPaused] = React.useState(true);
+//  =================================================================================
+  // const sound =new Howl({src:songs[currentSong].url})
+  // Howler.volume(0.1)
 
-  const SoundPlay = (src) => {
-    const sound =new Howl({src:BasicTable.currentSong})
-    setPaused(!paused)
-    console.log(paused)
-    if (paused === true){
-      sound.play(src)
-    }
-    if(paused === false){
-      sound.pause(src)
-    }
+
+  const [audio,setAudio] = useState(new Audio(songs[currentSong].url));
+  const [playing, setPlaying] = useState(false);
+  const toggle = () => setPlaying(!playing);
+
+  useEffect(() => {
+      playing ? audio.play() : audio.pause();
+    },
+    [playing]
+  );
+
+  
+  const nextSong =()=>{
+    setPlaying(!playing)
+    const S=currentSong+1
+    SetCurrentSong(S)
+    setAudio(new Audio(songs[currentSong].url))
+    setPlaying(!playing)
   }
-  Howler.volume(5.0)
 
+  const lastSong =()=>{
+    setPlaying(!playing)
+    const S=currentSong-1
+    SetCurrentSong(S)
+    setAudio(new Audio(songs[currentSong].url))
+    setPlaying(!playing)
+  }
+//  =================================================================================
   function formatDuration(value) {
     const minute = Math.floor(value / 60);
     const secondLeft = value - minute * 60;
@@ -97,19 +96,18 @@ export default function MusicPlayerSlider() {
   const mainIconColor = theme.palette.mode === 'dark' ? '#fff' : '#000';
   const lightIconColor =
     theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)';
-  if (loading){
-    return <div className='hi'>Loading</div>
-  }
+
   return (
    
-    <div className="hi" >
+    <div >
+
     <Box sx={{ width: '100%', overflow: 'hidden' }} >
       <Widget>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <CoverImage>
           <img
-              src={songs[5].links.images[0].url}
-              alt={songs[5].author}
+              src={songs[currentSong].links.images[0].url}
+              alt={songs[currentSong].author}
             />
           </CoverImage>
           <Box sx={{ ml: 1.5, minWidth: 0 }}>
@@ -117,11 +115,10 @@ export default function MusicPlayerSlider() {
            Now Playing
             </Typography>
             <Typography noWrap>
-              <b>  {songs[5].author}</b>
+              <b>  {songs[currentSong].author}</b>
             </Typography>
             <Typography noWrap letterSpacing={-0.25}>
-              {/* Chilling Sunday &mdash; คนเก่าเขาทำไว้ดี */}
-              {songs[5].name}
+              {songs[currentSong].name}
             </Typography>
           </Box>
         </Box>
@@ -179,14 +176,14 @@ export default function MusicPlayerSlider() {
             mt: -1,
           }}
         >
-          <IconButton aria-label="previous song">
+          <IconButton aria-label="previous song" onClick={()=>lastSong()}>
             <FastRewindRounded fontSize="large" htmlColor={mainIconColor} />
           </IconButton>
           <IconButton
-            aria-label={paused ? 'play' : 'pause'}
-            onClick={() => SoundPlay() }
+            aria-label={playing ? 'play' : 'pause'}
+            onClick={() => toggle() }
           >
-            {paused ? (
+            {!playing ? (
               <PlayArrowRounded
                 sx={{ fontSize: '3rem' }}
                 htmlColor={mainIconColor}
@@ -195,7 +192,7 @@ export default function MusicPlayerSlider() {
               <PauseRounded sx={{ fontSize: '3rem' }} htmlColor={mainIconColor} />
             )}
           </IconButton>
-          <IconButton aria-label="next song">
+          <IconButton aria-label="next song" onClick={()=>nextSong()}>
             <FastForwardRounded fontSize="large" htmlColor={mainIconColor} />
           </IconButton>
         </Box>

@@ -1,5 +1,10 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Abel&family=Barlow+Condensed:wght@100;300&family=Open+Sans+Condensed:wght@300&family=Patrick+Hand&display=swap');
+
+
 .App {
   text-align: center;
+  
 }
 
 .App-logo {
@@ -38,10 +43,10 @@
 }
 
 .MYstyle {
-    
+  padding-top: 65px;
   position: -webkit-sticky;
   position: sticky;
   top: 0;
   z-index: 50;
-  margin-top: 100;
+  text-align: left;
 }
