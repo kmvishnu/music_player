@@ -47,45 +47,53 @@ const TinyText = styled(Typography)({
 });
 
 export default function MusicPlayerSlider(props) {
-
+  // PROPS
   const songs = props.songs
   const currentSong =props.currentSong
   const SetCurrentSong=props.SetCurrentSong
-          
+ 
+
   const theme = useTheme();
   const duration = 200; // seconds
   const [position, setPosition] = React.useState(32);
-  // const [paused, setPaused] = React.useState(true);
 //  =================================================================================
-  // const sound =new Howl({src:songs[currentSong].url})
-  // Howler.volume(0.1)
 
 
-  const [audio,setAudio] = useState(new Audio(songs[currentSong].url));
+  const sound = songs[currentSong].url
+  const [audio,setAudio] = useState(new Audio(sound));
   const [playing, setPlaying] = useState(false);
-  const toggle = () => setPlaying(!playing);
+  const [change,setChange] = useState(true)
 
+  useEffect(()=>{  
+    if (change)
+    {
+      audio.play()
+      setPlaying(!playing)
+      setChange(!change) 
+    }
+  },[change])
+  
+  const toggle = () => setPlaying(!playing);
   useEffect(() => {
       playing ? audio.play() : audio.pause();
     },
     [playing]
   );
-
+  
+  useEffect(()=>{
+    audio.pause()
+    setPlaying(false)
+    setAudio(new Audio(sound))
+    setChange(!change)
+  },[currentSong])
+  
   
   const nextSong =()=>{
-    setPlaying(!playing)
-    const S=currentSong+1
-    SetCurrentSong(S)
-    setAudio(new Audio(songs[currentSong].url))
-    setPlaying(!playing)
+    SetCurrentSong(currentSong+1)
   }
 
   const lastSong =()=>{
-    setPlaying(!playing)
-    const S=currentSong-1
-    SetCurrentSong(S)
-    setAudio(new Audio(songs[currentSong].url))
-    setPlaying(!playing)
+    SetCurrentSong(currentSong-1)
   }
 //  =================================================================================
   function formatDuration(value) {

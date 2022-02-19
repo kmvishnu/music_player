@@ -9,6 +9,7 @@ import axios from "axios"
 import { useEffect , useState} from "react"
 import FavoriteTwoToneIcon from '@mui/icons-material/FavoriteTwoTone';
 import { Button } from '@mui/material';
+import Player from './Player'
 
 
 
@@ -17,6 +18,9 @@ export default function BasicTable(props) {
 const songs =props.songs
 const currentSong =props.currentSong
 const SetCurrentSong=props.SetCurrentSong
+
+
+
 
   return (
     <TableContainer component={Paper}>
