@@ -22,6 +22,7 @@ import Table from './Table'
 import Search from './Search'
 import { useState,useEffect } from 'react';
 import axios from 'axios';
+import AddIcon from '@mui/icons-material/Add';
 
 const drawerWidth = 240;
 
@@ -96,6 +97,7 @@ export default function MiniDrawer() {
   const [songs,setSongs] = useState(0)
   const [loading,setLoading] =useState(true)
   const [currentSong,SetCurrentSong] = useState(4)
+  const [keyword,setKeyword] = useState("")
   
 
   const handleDrawerOpen = () => {
@@ -149,33 +151,22 @@ export default function MiniDrawer() {
         </DrawerHeader>
         <Divider />
         <List>
-          {['Favourites','Playlist'].map((text, index) => (
-            <ListItem button key={text}>
+          {[['Favourites',<FavoriteIcon/>],['Playlist',<PlaylistPlayIcon />],['Add Song',<AddIcon/>]].map((text, index) => (
+            <ListItem button key={text[0]}>
               <ListItemIcon>
-                {index % 2 === 0 ? <FavoriteIcon/> : <PlaylistPlayIcon  />}
+                {text[1]}
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary={text[0]} />
             </ListItem>
           ))}
         </List>
         <Divider />
-        {/* <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List> */}
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-        <Search/>
-           <div className='MYstyle'><Player songs={songs} currentSong={currentSong} SetCurrentSong={SetCurrentSong} /></div>   
-            <div> <br/><Table songs={songs} currentSong={currentSong} SetCurrentSong={SetCurrentSong}/></div>
-           
+        <Search keyword={keyword} setKeyword={setKeyword}/>
+        <div className='MYstyle'><Player songs={songs} currentSong={currentSong} SetCurrentSong={SetCurrentSong}  /></div>   
+        <div> <br/><Table songs={songs} currentSong={currentSong} SetCurrentSong={SetCurrentSong} keyword={keyword}/></div>   
       </Box>
     </Box></div>
   );

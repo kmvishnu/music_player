@@ -5,19 +5,18 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import axios from "axios"
-import { useEffect , useState} from "react"
 import FavoriteTwoToneIcon from '@mui/icons-material/FavoriteTwoTone';
 import { Button } from '@mui/material';
-import Player from './Player'
+
 
 
 
 export default function BasicTable(props) {
 
 const songs =props.songs
-const currentSong =props.currentSong
+// const currentSong =props.currentSong
 const SetCurrentSong=props.SetCurrentSong
+const keyword =props.keyword
 
 
 
@@ -27,7 +26,14 @@ const SetCurrentSong=props.SetCurrentSong
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
       
         <TableBody>
-          {songs.map((row,index) => (
+          {songs.filter((val)=>{
+            if(keyword===''){return val}
+            else if(
+              val.name.toLowerCase().includes(keyword.toLowerCase()) ||
+              val.author.toLowerCase().includes(keyword.toLowerCase())
+            )
+            {return val}
+          }).map((row,index) => (
            
             <TableRow
               key={index+1}
