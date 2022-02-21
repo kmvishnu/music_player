@@ -12,14 +12,23 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router';
+import axios from 'axios';
 
 export default function SignInSide() {
   const navigate = useNavigate()
+  const [user,setUser] = React.useState({'name':'','email':'','password':''})
+  const handler = (e) =>{
+    setUser({...user,[e.target.id]:e.target.value})
+  }
   const handleSubmit = (event) => {
-   navigate("/")
+    axios.post("http://127.0.0.1:5001/add",user).then((response)=>{
+      console.log("USER ADDED")
+    }).catch((error)=>console.log("ERROR is ",error))
+    navigate("/")
   };
 
-  return (
+  return (<>
+    {console.log(user)}
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid
@@ -62,6 +71,7 @@ export default function SignInSide() {
                 name="name"
                 autoComplete="name"
                 autoFocus
+                onChange={(e)=>handler(e)}
               />
               <TextField
                 margin="normal"
@@ -72,6 +82,7 @@ export default function SignInSide() {
                 name="email"
                 autoComplete="email"
                 autoFocus
+                onChange={(e)=>handler(e)}
               />
               <TextField
                 margin="normal"
@@ -82,6 +93,7 @@ export default function SignInSide() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={(e)=>handler(e)}
               />
            
               <Button
@@ -95,6 +107,6 @@ export default function SignInSide() {
             </Box>
           </Box>
         </Grid>
-      </Grid>
+      </Grid></>
   );
 }

@@ -9,12 +9,12 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<Signin/>}></Route>
+        <Route path="/" element={<Signin/>}/>
         <Route path="/sidebar" element={<Sidebar/>}/>
         <Route path="/signup" element={<Signup/>}/>
         
       </Routes>
-      {/*  <Sidebar/> */}
+    
     </div>
   );
 }
