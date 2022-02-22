@@ -45,7 +45,7 @@ def login_user():
             resp.status_code = 200
             return resp
         else:
-            return jsonify("wrong details")  
+            return jsonify("wrong details") ,404
     else:
         return not_found()
        

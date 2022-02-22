@@ -11,19 +11,23 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { AUTH } from '../store/constants/storeConstants'
 
 
 export default function SignInSide() {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const [user,setUser] = React.useState({'email':'','password':''})
   const handler = (e) =>{
     setUser({...user,[e.target.id]:e.target.value})
   }
-  const handleSubmit = (event) => {
+  const Submit = () => {
     axios.post("http://127.0.0.1:5001/loginPage",user).then((response)=>{
       console.log("USER Found")
+      dispatch({type:AUTH,payload:true})
       navigate("/sidebar")
-      // props.setisAuth(true)
+      
     }).catch((error)=>console.log("ERROR is ",error))
     
   };
@@ -62,7 +66,7 @@ export default function SignInSide() {
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box component="form" noValidate  sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
                 required
@@ -87,10 +91,11 @@ export default function SignInSide() {
               />
            
               <Button
-                type="submit"
+                type="button"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                onClick={()=>Submit()}
               >
                 Sign In
               </Button>

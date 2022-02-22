@@ -1,9 +1,11 @@
-import { Navigate } from "react-router"
+import { useSelector } from "react-redux"
 export default function Auth(props){
-  if (props.isAuth === true){
-    props.setisAuth(true)
+  const isAuth = useSelector(state=>state.isAuth)
+  if (isAuth === true){
+    console.log("true")
+    return props.children
   }
   else{
-    return <Navigate to="/"/>
+    console.log("false")
   }
 }
