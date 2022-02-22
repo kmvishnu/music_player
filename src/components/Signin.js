@@ -29,7 +29,7 @@ export default function SignInSide() {
       dispatch({type:USER,payload:user})
       navigate("/sidebar")
       
-    }).catch((error)=>console.log("ERROR is ",error))
+    }).catch((error)=>document.getElementById("ptag").innerText = "Invalid Credentials")
     
   };
 
@@ -43,7 +43,7 @@ export default function SignInSide() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: 'url(https://source.unsplash.com/random)',
+            backgroundImage: 'url(https://i.pinimg.com/originals/13/8a/bf/138abf84decb70700d30f1eb4a5df042.png)',
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
@@ -90,6 +90,9 @@ export default function SignInSide() {
                 autoComplete="current-password"
                 onChange={(e)=>handler(e)}
               />
+                 <Grid item xs={12}>
+                <p id='ptag' style={{color:"red"}}></p>
+              </Grid>
            
               <Button
                 type="button"

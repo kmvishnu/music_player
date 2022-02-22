@@ -13,10 +13,14 @@ def add_user():
 
     if _name and _email and _password and request.method == 'POST':
         _hashed_password = generate_password_hash(_password)
-        id = mongo.db.users.insert_one({'name':_name, 'email':_email, 'password':_hashed_password})
-        resp = jsonify("user added successfully")
-        resp.status_code = 200
-        return resp
+
+        if mongo.db.users.find_one({'email': _email}):
+            return jsonify("user already exist"),400
+        else:
+            id = mongo.db.users.insert_one({'name':_name, 'email':_email, 'password':_hashed_password})
+            resp = jsonify("user added successfully")
+            resp.status_code = 200
+            return resp
     else:
         return not_found()
 
@@ -45,7 +49,7 @@ def login_user():
             resp.status_code = 200
             return resp
         else:
-            return jsonify("wrong details") ,404
+            return jsonify("wrong details") ,403
     else:
         return not_found()
        

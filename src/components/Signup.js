@@ -17,11 +17,12 @@ export default function SignInSide() {
   const handler = (e) =>{
     setUser({...user,[e.target.id]:e.target.value})
   }
-  const handleSubmit = (event) => {
+  const Submit = () => {
     axios.post("http://127.0.0.1:5001/add",user).then((response)=>{
       console.log("USER ADDED")
-    }).catch((error)=>console.log("ERROR is ",error))
-    navigate("/")
+      navigate('/')
+    }).catch((error)=>document.getElementById("ptag").innerText = "Email id already exists")
+    
   };
 
   return (<>
@@ -34,7 +35,7 @@ export default function SignInSide() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: 'url(https://source.unsplash.com/random)',
+            backgroundImage: 'url(https://i.pinimg.com/originals/13/8a/bf/138abf84decb70700d30f1eb4a5df042.png)',
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
@@ -58,7 +59,7 @@ export default function SignInSide() {
             <Typography component="h1" variant="h5">
               Sign Up
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box component="form" noValidate  sx={{ mt: 1 }}>
             <TextField
                 margin="normal"
                 required
@@ -92,12 +93,16 @@ export default function SignInSide() {
                 autoComplete="current-password"
                 onChange={(e)=>handler(e)}
               />
+
+              <Grid item xs={12}>
+                <p id='ptag' style={{color:"red"}}></p>
+              </Grid>
            
               <Button
-                type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                onClick={()=>Submit()}
               >
                 Register
               </Button>       

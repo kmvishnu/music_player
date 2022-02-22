@@ -141,7 +141,7 @@ export default function MiniDrawer() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-          Music Player
+          V-MUSIC
           </Typography>
         </Toolbar>
       </AppBar>
