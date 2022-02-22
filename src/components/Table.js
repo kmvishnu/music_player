@@ -27,12 +27,17 @@ const keyword =props.keyword
       
         <TableBody>
           {songs.filter((val)=>{
-            if(keyword===''){return val}
+            if(keyword==='')
+            {
+              return val
+            }
             else if(
               val.name.toLowerCase().includes(keyword.toLowerCase()) ||
               val.author.toLowerCase().includes(keyword.toLowerCase())
             )
-            {return val}
+            {
+              return val
+            }
           }).map((row,index) => (
            
             <TableRow
@@ -42,11 +47,13 @@ const keyword =props.keyword
             >
               
               <TableCell align="right" >
-                <Button onClick={()=>SetCurrentSong(row.id)}><img src={row.links.images[0].url} width={60} height={60}/></Button>
+                <Button onClick={()=>SetCurrentSong(row.id)}><img src={row.links.images[0].url} width={60} height={60} alt="artist"/></Button>
               
               </TableCell>
               <TableCell align="left"><b>{row.name}</b><br/>{row.author}</TableCell>
-              <TableCell align="left"><FavoriteTwoToneIcon/></TableCell>
+              <TableCell align="left">
+                <Button type="button"><FavoriteTwoToneIcon/></Button>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

@@ -153,7 +153,7 @@ export default function MiniDrawer() {
         </DrawerHeader>
         <Divider />
         <List>
-          {[['Favourites',<FavoriteIcon/>],['Playlist',<PlaylistPlayIcon />],['Add Song',<AddIcon/>]].map((text, index) => (
+          {[['Favourites',<FavoriteIcon/>],['Playlist',<PlaylistPlayIcon />],['Add Playlist',<AddIcon/>]].map((text, index) => (
             <ListItem button key={text[0]}>
               <ListItemIcon>
                 {text[1]}
