@@ -23,6 +23,7 @@ import Search from './Search'
 import { useState,useEffect } from 'react';
 import axios from 'axios';
 import AddIcon from '@mui/icons-material/Add';
+import { useSelector } from 'react-redux';
 
 const drawerWidth = 240;
 
@@ -98,6 +99,7 @@ export default function MiniDrawer() {
   const [loading,setLoading] =useState(true)
   const [currentSong,SetCurrentSong] = useState(4)
   const [keyword,setKeyword] = useState("")
+  const User =useSelector(state=>state.currentUser)
   
 
   const handleDrawerOpen = () => {
@@ -121,7 +123,7 @@ export default function MiniDrawer() {
     return <div className='hi'>Loading</div>
   }
   return (
-    <div className='hi'>
+    <div className='hi'>{console.log(User)}
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>

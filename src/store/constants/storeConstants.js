@@ -1,6 +1,8 @@
 export const INITIAL_STATE ={
   keyword:"",
-  isAuth:false
+  isAuth:false,
+  currentUser:{"email":"","password":""}
 }
-export const SEARCH = "SEARCH"
+
 export const AUTH = "AUTH"
+export const USER = "USER"

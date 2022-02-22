@@ -12,7 +12,7 @@ import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { AUTH } from '../store/constants/storeConstants'
+import { AUTH, USER } from '../store/constants/storeConstants'
 
 
 export default function SignInSide() {
@@ -26,6 +26,7 @@ export default function SignInSide() {
     axios.post("http://127.0.0.1:5001/loginPage",user).then((response)=>{
       console.log("USER Found")
       dispatch({type:AUTH,payload:true})
+      dispatch({type:USER,payload:user})
       navigate("/sidebar")
       
     }).catch((error)=>console.log("ERROR is ",error))

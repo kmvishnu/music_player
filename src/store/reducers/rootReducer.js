@@ -1,13 +1,12 @@
-import { INITIAL_STATE,AUTH,SEARCH } from "../constants/storeConstants"
-
+import { INITIAL_STATE,AUTH,USER } from "../constants/storeConstants"
 
 export const rootReducer = (state = INITIAL_STATE,action) =>{
   switch(action.type){
-    case SEARCH :
-      return {...state,keyword:action.payload}
-
     case AUTH:
       return {...state,isAuth:action.payload}
+
+    case USER:
+      return {...state,currentUser:action.payload}
     
     default:
       return state
