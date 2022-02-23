@@ -29,6 +29,10 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { red } from '@mui/material/colors';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import { useNavigate } from 'react-router';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import QueueMusicIcon from '@mui/icons-material/QueueMusic';
+import { CLICKED } from '../store/constants/storeConstants';
+import HomeIcon from '@mui/icons-material/Home';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -107,7 +111,7 @@ export default function MiniDrawer() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const showFav =useSelector(state=>state.showFav)
-
+  const [visible,setVisible] = useState(false)
   console.log("details",UserDetails)
 
   const handleDrawerOpen = () => {
@@ -163,7 +167,7 @@ export default function MiniDrawer() {
         </DrawerHeader>
         <Divider />
         <List>
-          {[['Favourites',(showFav)?<FavoriteIcon style={{ color: red[500]}}/>:<FavoriteBorderIcon/>,()=>dispatch({type:SHOWFAV,payload:!showFav})],['Playlist',<PlaylistPlayIcon />],['Add Playlist',<AddIcon/>],['Log Out',<PowerSettingsNewIcon/>,()=>{dispatch({type:AUTH,payload:false}) ; navigate("/")}]].map((text, index) => (
+          {[['Favourites',(showFav)?<FavoriteIcon style={{ color: red[500]}}/>:<FavoriteBorderIcon/>,()=>dispatch({type:SHOWFAV,payload:!showFav})],['Home', <HomeIcon/>,()=>dispatch({type:CLICKED,payload:''})],['Log Out',<PowerSettingsNewIcon/>,()=>{dispatch({type:AUTH,payload:false}) ; navigate("/")}]].map((text, index) => (
             <ListItem button onClick={text[2]} key={text[0]}>
               <ListItemIcon>
                 {text[1]}
@@ -173,6 +177,29 @@ export default function MiniDrawer() {
           ))}
         </List>
         <Divider />
+        
+        <List>
+          {[['Playlist',<PlaylistPlayIcon />,()=>setVisible(!visible)]].map((text, index) => (
+            <ListItem button onClick={text[2]} key={text[0]}>
+              <ListItemIcon>
+                {text[1]}
+              </ListItemIcon>
+              <ListItemText primary={text[0]} />
+              </ListItem>
+          ))}
+        </List>
+        { visible && (<List>
+          <ul>
+          {UserDetails['playlist'].map((text, index) => (
+            <li>
+            <ListItem button onClick={()=>dispatch({type:CLICKED,payload:index})} key={text[0]}>
+
+              <ListItemText primary={text[0]} />
+              </ListItem>
+              </li>
+          ))}
+          </ul>
+        </List>)}
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />

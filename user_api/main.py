@@ -17,7 +17,7 @@ def add_user():
         if mongo.db.users.find_one({'email': _email}):
             return jsonify("user already exist"),400
         else:
-            id = mongo.db.users.insert_one({'name':_name, 'email':_email, 'password':_hashed_password,'favourite':[],'playlist':{} })
+            id = mongo.db.users.insert_one({'name':_name, 'email':_email, 'password':_hashed_password,'favourite':[],'playlist':[] })
             resp = jsonify("user added successfully")
             resp.status_code = 200
             return resp

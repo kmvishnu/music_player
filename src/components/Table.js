@@ -9,7 +9,7 @@ import FavoriteTwoToneIcon from '@mui/icons-material/FavoriteTwoTone';
 import { Button } from '@mui/material';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { ADDFAV, USERDETAILS } from '../store/constants/storeConstants';
+import { ADDFAV, ADDPLAY, USERDETAILS } from '../store/constants/storeConstants';
 import { useState,useEffect } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
@@ -31,13 +31,16 @@ const UserDetails =useSelector(state=>state.UserDetails)
 const dispatch = useDispatch()
 const User =useSelector(state=>state.currentUser)
 const showFav =useSelector(state=>state.showFav)
+const clickedPlay =useSelector(state=>state.clickedPlay)
 const allFav = useSelector(state=>state.UserDetails.favourite)
-const [visible,setVisible] = useState(false)
+const allPlay = useSelector(state=>state.UserDetails.playlist[clickedPlay])
+const [current,setCurrent] = useState("")
 console.log("showFav:",showFav,"Allfav:",allFav)
 const [modal, setModal] = useState(false);
 
-const toggleModal = () => {
+const toggleModal = (e) => {
   setModal(!modal);
+  setCurrent(e)
 };
 
 
@@ -72,11 +75,36 @@ const fav = (x) =>{
     }).catch(error=>console.log(error))  
     console.log("favourites after adding:",UserDetails['favourite'])
   }}
+const [newPlay,setNewPlay] = useState("")
+const setNew = (e) =>{
+  setNewPlay(e)
+  console.log("e",e)
+}
 
+const addPlay = () =>{
+  let x = []
+  x.push(newPlay)
+  console.log("x",x)
+  UserDetails["playlist"].push(x)
+  console.log("state playlist",UserDetails.playlist)
+  dispatch({type:ADDPLAY,payload:UserDetails["playlist"]})
+  let f2 = {"email":UserDetails.email,"playlist":UserDetails['playlist']}
+    axios.put("http://127.0.0.1:5001/addPlaylist",f2).then((response)=>{
+    }).catch(error=>console.log(error))
+}
+
+const dropValue =(selected)=>{
+  UserDetails["playlist"][selected].push(current)
+  dispatch({type:ADDPLAY,payload:UserDetails["playlist"]})
+  let f2 = {"email":UserDetails.email,"playlist":UserDetails['playlist']}
+    axios.put("http://127.0.0.1:5001/addPlaylist",f2).then((response)=>{
+    }).catch(error=>console.log(error))
+    setModal(!modal)
+}
  
   if(!showFav){
     return (
-      <>
+      <>{console.log("clicked",clickedPlay)}
       {modal && (
         <div className="modal">
           <div onClick={toggleModal} className="overlay"></div>
@@ -88,17 +116,17 @@ const fav = (x) =>{
                                 <Select
                                   labelId="demo-simple-select-label"
                                   id="demo-simple-select"
-                                  
+                                  onChange={(e)=>dropValue(e.target.value)}
                                   label="Playlist"
                                  
                                 >
-                                  {UserDetails.playlist.map()}
-                                  {/* <MenuItem value={10}>Ten</MenuItem>
-                                  <MenuItem value={20}>Twenty</MenuItem>
-                                  <MenuItem value={30}>Thirty</MenuItem> */}
+                                  {UserDetails.playlist.map((val,index)=>(
+                                      <MenuItem value={index}>{val[0]}</MenuItem>
+                                  ))}
+                                 
                                 </Select><br/>
-                                <TextField id="standard-basic" label="Enter New Playlist" variant="standard" />
-                                <Button>Add Playlist</Button>
+                                <TextField id="standard-basic" label="Enter New Playlist" variant="standard" onChange={(e)=>setNew(e.target.value)} />
+                                <Button onClick={()=>addPlay()}>Add Playlist</Button>
                               </FormControl>
                             </Box>
             
@@ -111,16 +139,23 @@ const fav = (x) =>{
           <TableBody>
             {songs.filter((val)=>{
               if(keyword==='')
-              {
-                return val
+              { 
+                try{
+                if(allPlay.includes(val.id)){
+                  return val
+                }}catch(err){return val}
               }
               else if(
                 val.name.toLowerCase().includes(keyword.toLowerCase()) ||
                 val.author.toLowerCase().includes(keyword.toLowerCase())
               )
-              {
-                return val
+              { 
+                try{
+                  if(allPlay.includes(val.id)){
+                    return val
+                  }}catch(err){return val}
               }
+              
               
             }).map((row,index) => (
              
@@ -134,9 +169,9 @@ const fav = (x) =>{
                   <Button onClick={()=>SetCurrentSong(row.id)}><img src={row.links.images[0].url} width={60} height={60} alt="artist"/></Button>
                 </TableCell>
                 <TableCell align="left"><b>{row.name}</b><br/>{row.author}</TableCell>
-                <TableCell align="left">
+                <TableCell align="right">
                   <Button type="button"  onClick={()=>fav(row.id)}><FavoriteTwoToneIcon/></Button>
-                  <Button variant="text" onClick={()=>toggleModal()}><AddIcon/></Button>
+                  <Button variant="text" onClick={()=>toggleModal(row.id)}><AddIcon/></Button>
                 </TableCell>
               </TableRow>
             ))}
@@ -183,7 +218,7 @@ const fav = (x) =>{
                 
                 </TableCell>
                 <TableCell align="left"><b>{row.name}</b><br/>{row.author}</TableCell>
-                <TableCell align="left">
+                <TableCell align="right">
                   <Button type="button"  onClick={()=>fav(row.id)}><FavoriteTwoToneIcon/></Button>
                 </TableCell>
               </TableRow>
