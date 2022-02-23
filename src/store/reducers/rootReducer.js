@@ -1,4 +1,4 @@
-import { INITIAL_STATE,AUTH,USER } from "../constants/storeConstants"
+import { INITIAL_STATE,AUTH,USER,USERDETAILS,ADDFAV,SHOWFAV } from "../constants/storeConstants"
 
 export const rootReducer = (state = INITIAL_STATE,action) =>{
   switch(action.type){
@@ -7,7 +7,16 @@ export const rootReducer = (state = INITIAL_STATE,action) =>{
 
     case USER:
       return {...state,currentUser:action.payload}
+
+    case USERDETAILS:
+      return {...state,UserDetails:action.payload}
     
+    case ADDFAV:
+      return {...state,UserDetails:{...state.UserDetails,favourite:action.payload}}
+
+    case SHOWFAV:
+      return {...state,showFav:action.payload}
+
     default:
       return state
   }

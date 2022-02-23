@@ -24,7 +24,6 @@ export default function SignInSide() {
   }
   const Submit = () => {
     axios.post("http://127.0.0.1:5001/loginPage",user).then((response)=>{
-      console.log("USER Found")
       dispatch({type:AUTH,payload:true})
       dispatch({type:USER,payload:user})
       navigate("/sidebar")
@@ -34,7 +33,7 @@ export default function SignInSide() {
   };
 
   return (<>
-    {console.log(user)}
+  
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid

@@ -17,7 +17,7 @@ def add_user():
         if mongo.db.users.find_one({'email': _email}):
             return jsonify("user already exist"),400
         else:
-            id = mongo.db.users.insert_one({'name':_name, 'email':_email, 'password':_hashed_password})
+            id = mongo.db.users.insert_one({'name':_name, 'email':_email, 'password':_hashed_password,'favourite':[],'playlist':{} })
             resp = jsonify("user added successfully")
             resp.status_code = 200
             return resp
@@ -26,10 +26,34 @@ def add_user():
 
 
 
+@app.route('/addFav',methods=['PUT'])
+def addFav():
+    _json = request.json
+    _email = _json['email']
+    _favourite = _json['favourite']
+
+    if  _email and _favourite and request.method == 'PUT':
+        mongo.db.users.update_one({'email':_email},
+        {'$set':{'favourite':_favourite}}) 
+        resp = jsonify("User Updated Successfully")
+        resp.status_code = 200
+        return resp
+    else:
+        return not_found
+
+
+
 
 @app.route('/users')
 def users():
     users = mongo.db.users.find()
+    resp = dumps(users)
+    return resp
+
+
+@app.route('/getUser/<email>')      
+def getUser(email):                                              
+    users = mongo.db.users.find_one({"email":email})
     resp = dumps(users)
     return resp
 
