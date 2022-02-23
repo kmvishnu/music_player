@@ -41,6 +41,21 @@ def addFav():
     else:
         return not_found
 
+@app.route('/addPlaylist',methods=['PUT'])
+def addPlaylist():
+    _json = request.json
+    _email = _json['email']
+    _playlist = _json['playlist']
+
+    if  _email and request.method == 'PUT':
+        mongo.db.users.update_one({'email':_email},
+        {'$set':{'playlist':_playlist}}) 
+        resp = jsonify("playlist added Successfully")
+        resp.status_code = 200
+        return resp
+    else:
+        return not_found
+
 
 
 

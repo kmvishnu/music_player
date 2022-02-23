@@ -18,3 +18,60 @@
 //   );
 // };
 
+// return (
+//   <TableContainer component={Paper}>
+//     <Table sx={{ minWidth: 650 }} aria-label="simple table">
+    
+//       <TableBody>
+//         {songs.filter((val)=>{
+//           if(keyword==='')
+//           {
+//             if(allFav.includes(val.id)){
+//               return val
+//             }
+//           }
+//           else if(
+//             val.name.toLowerCase().includes(keyword.toLowerCase()) ||
+//             val.author.toLowerCase().includes(keyword.toLowerCase())
+//           )
+//           {
+//             if(allFav.includes(val.id)){
+//               return val
+//             }
+//           }
+          
+//         }).map((row,index) => (
+         
+//           <TableRow
+//             key={index+1}
+//             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+           
+//           >
+            
+//             <TableCell align="right" >
+//               <Button onClick={()=>SetCurrentSong(row.id)}><img src={row.links.images[0].url} width={60} height={60} alt="artist"/></Button>
+            
+//             </TableCell>
+//             <TableCell align="left"><b>{row.name}</b><br/>{row.author}</TableCell>
+//             <TableCell align="left">
+//               <Button type="button"  onClick={()=>fav(row.id)}><FavoriteTwoToneIcon/></Button>
+//             </TableCell>
+//             <TableCell>   
+//                 <div>
+//                   <Button variant="outlined" onClick={handleClickOpen}>
+//                   <AddIcon/>
+//                   </Button>
+//                   <SimpleDialog
+//                     selectedValue={selectedValue}
+//                     open={open}
+//                     onClose={handleClose}
+//                   />
+//                 </div>
+//             </TableCell>
+//           </TableRow>
+//         ))}
+//       </TableBody>
+//     </Table>
+//   </TableContainer>
+// );
+// }

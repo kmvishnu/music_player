@@ -2,7 +2,7 @@ export const INITIAL_STATE ={
   keyword:"",
   isAuth:false,
   currentUser:{"email":"","password":""},
-  UserDetails:{"favourite":[]},
+  UserDetails:{"favourite":[],"playlist":{}},
   showFav:false
 }
 

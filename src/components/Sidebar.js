@@ -24,10 +24,11 @@ import { useState,useEffect } from 'react';
 import axios from 'axios';
 import AddIcon from '@mui/icons-material/Add';
 import { useDispatch, useSelector } from 'react-redux';
-import { SHOWFAV } from '../store/constants/storeConstants';
+import { AUTH, SHOWFAV } from '../store/constants/storeConstants';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { red } from '@mui/material/colors';
-
+import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
+import { useNavigate } from 'react-router';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -104,9 +105,10 @@ export default function MiniDrawer() {
   const [keyword,setKeyword] = useState("")
   const UserDetails =useSelector(state=>state.UserDetails)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const showFav =useSelector(state=>state.showFav)
 
-  // console.log("details",UserDetails)
+  console.log("details",UserDetails)
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -161,7 +163,7 @@ export default function MiniDrawer() {
         </DrawerHeader>
         <Divider />
         <List>
-          {[['Favourites',(showFav)?<FavoriteIcon style={{ color: red[500]}}/>:<FavoriteBorderIcon/>,()=>dispatch({type:SHOWFAV,payload:!showFav})],['Playlist',<PlaylistPlayIcon />],['Add Playlist',<AddIcon/>]].map((text, index) => (
+          {[['Favourites',(showFav)?<FavoriteIcon style={{ color: red[500]}}/>:<FavoriteBorderIcon/>,()=>dispatch({type:SHOWFAV,payload:!showFav})],['Playlist',<PlaylistPlayIcon />],['Add Playlist',<AddIcon/>],['Log Out',<PowerSettingsNewIcon/>,()=>{dispatch({type:AUTH,payload:false}) ; navigate("/")}]].map((text, index) => (
             <ListItem button onClick={text[2]} key={text[0]}>
               <ListItemIcon>
                 {text[1]}
