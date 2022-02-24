@@ -52,17 +52,23 @@ export default function MusicPlayerSlider(props) {
   const currentSong =props.currentSong
   const SetCurrentSong=props.SetCurrentSong
  
-
-  const theme = useTheme();
-  const duration = 200; // seconds
-  const [position, setPosition] = React.useState(32);
 //  =================================================================================
+  const theme = useTheme();
+  // const [duration,setDuration] = useState(0)
+  const [position, setPosition] = React.useState(32);
+
 
 
   const sound = songs[currentSong].url
   const [audio,setAudio] = useState(new Audio(sound));
   const [playing, setPlaying] = useState(false);
   const [change,setChange] = useState(true)
+  const [volume,setVolume] = useState(0.5)
+  const [cTime,setcTime] =useState(0)
+  const changecTime =(e)=>{
+    audio.currentTime = e
+    setcTime(e)
+  }
 
   useEffect(()=>{  
     if (change)
@@ -84,6 +90,7 @@ export default function MusicPlayerSlider(props) {
     audio.pause()
     setPlaying(false)
     setAudio(new Audio(sound))
+    setcTime(0)
     setChange(!change)
   },[currentSong])
   
@@ -98,17 +105,23 @@ export default function MusicPlayerSlider(props) {
 //  =================================================================================
   function formatDuration(value) {
     const minute = Math.floor(value / 60);
-    const secondLeft = value - minute * 60;
+    let secondLeft = value - minute * 60;
+    secondLeft =Math.round(secondLeft)
     return `${minute}:${secondLeft < 9 ? `0${secondLeft}` : secondLeft}`;
   }
   const mainIconColor = theme.palette.mode === 'dark' ? '#fff' : '#000';
   const lightIconColor =
     theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)';
+  audio.volume = volume
+
+  console.log("current time ",audio.currentTime)
+  console.log("current duration ",audio.duration)
 
   return (
    
     <div >
-
+      
+   
     <Box sx={{ width: '100%', overflow: 'hidden' }} >
       <Widget>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -133,11 +146,11 @@ export default function MusicPlayerSlider(props) {
         <Slider
           aria-label="time-indicator"
           size="small"
-          value={position}
+          value={audio.currentTime}
           min={0}
           step={1}
-          max={duration}
-          onChange={(_, value) => setPosition(value)}
+          max={audio.duration}
+          onChange={(e) =>changecTime(e.target.value)}
           sx={{
             color: theme.palette.mode === 'dark' ? '#fff' : 'rgba(0,0,0,0.87)',
             height: 4,
@@ -173,8 +186,8 @@ export default function MusicPlayerSlider(props) {
             mt: -2,
           }}
         >
-          <TinyText>{formatDuration(position)}</TinyText>
-          <TinyText>-{formatDuration(duration - position)}</TinyText>
+          <TinyText>{formatDuration(audio.currentTime)}</TinyText>
+          <TinyText>{formatDuration(audio.duration )}</TinyText>
         </Box>
         <Box
           sx={{
@@ -208,7 +221,14 @@ export default function MusicPlayerSlider(props) {
           <VolumeDownRounded htmlColor={lightIconColor} />
           <Slider
             aria-label="Volume"
-            defaultValue={30}
+            
+            
+            value={volume}
+            min={0}
+            step={0.01}
+            max={1}
+            onChange={(e) => setVolume(e.target.value)}
+
             sx={{
               color: theme.palette.mode === 'dark' ? '#fff' : 'rgba(0,0,0,0.87)',
               '& .MuiSlider-track': {

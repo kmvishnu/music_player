@@ -18,6 +18,8 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
+import { red } from '@mui/material/colors';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 import "./Playlist.css";
 
@@ -170,7 +172,7 @@ const dropValue =(selected)=>{
                 </TableCell>
                 <TableCell align="left"><b>{row.name}</b><br/>{row.author}</TableCell>
                 <TableCell align="right">
-                  <Button type="button"  onClick={()=>fav(row.id)}><FavoriteTwoToneIcon/></Button>
+                  <Button type="button"  onClick={()=>fav(row.id)}>{(allFav.includes(row.id))?<FavoriteIcon style={{ color: red[500] }}/>:<FavoriteTwoToneIcon/>}</Button>
                   <Button variant="text" onClick={()=>toggleModal(row.id)}><AddIcon/></Button>
                 </TableCell>
               </TableRow>
@@ -219,7 +221,7 @@ const dropValue =(selected)=>{
                 </TableCell>
                 <TableCell align="left"><b>{row.name}</b><br/>{row.author}</TableCell>
                 <TableCell align="right">
-                  <Button type="button"  onClick={()=>fav(row.id)}><FavoriteTwoToneIcon/></Button>
+                  <Button type="button"  onClick={()=>fav(row.id)}>{(allFav.includes(row.id))?<FavoriteIcon style={{ color: red[500] }}/>:<FavoriteTwoToneIcon/>}</Button>
                 </TableCell>
               </TableRow>
             ))}
