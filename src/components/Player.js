@@ -115,8 +115,8 @@ export default function MusicPlayerSlider(props) {
     theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)';
   audio.volume = volume
 
-  console.log("current time ",audio.currentTime)
-  console.log("current duration ",audio.duration)
+  // console.log("current time ",audio.currentTime)
+  // console.log("current duration ",audio.duration)
 
   return (
    
@@ -144,7 +144,7 @@ export default function MusicPlayerSlider(props) {
             </Typography>
           </Box>
         </Box>
-         <Slider
+         {/* <Slider
           aria-label="time-indicator"
           size="small"
           value={audio.currentTime}
@@ -178,7 +178,7 @@ export default function MusicPlayerSlider(props) {
               opacity: 0.28,
             },
           }}
-        />
+        /> */}
         <Box
           sx={{
             display: 'flex',
@@ -187,7 +187,7 @@ export default function MusicPlayerSlider(props) {
             mt: -2,
           }}
         >
-          <TinyText>{formatDuration(audio.currentTime)}</TinyText>
+          {/* <TinyText>{formatDuration(audio.currentTime)}</TinyText> */}
           {/* <TinyText>{formatDuration(audio.duration )}</TinyText> */}
         </Box>
         <Box

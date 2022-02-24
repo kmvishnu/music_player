@@ -13,6 +13,10 @@ import { useNavigate } from 'react-router';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { AUTH, USER } from '../store/constants/storeConstants'
+import { useState } from 'react';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import SupervisedUserCircleOutlinedIcon from '@mui/icons-material/SupervisedUserCircleOutlined';
+import "./Info.css";
 
 
 export default function SignInSide() {
@@ -31,6 +35,20 @@ export default function SignInSide() {
     }).catch((error)=>document.getElementById("ptag").innerText = "Invalid Credentials")
     
   };
+  const [modal, setmodal] = useState(false);
+  const [Modal, setModal] = useState(false);
+
+const toggleModal = () => {
+  setModal(!Modal);
+ 
+};
+
+const togglemodal = () => {
+  setmodal(!modal);
+ 
+};
+
+
 
   return (<>
   
@@ -109,8 +127,38 @@ export default function SignInSide() {
                        
             </Box>
           </Box>
+          <Button onClick={()=>toggleModal()}><InfoOutlinedIcon/></Button>
+          <Button onClick={()=>togglemodal()}><SupervisedUserCircleOutlinedIcon/></Button>
         </Grid>
       </Grid>
+   
+      {Modal && (
+        <div className="modal">
+          <div onClick={toggleModal} className="overlay"></div>
+          <div className="modal-content">
+            <h1 style={{fontFamily:"monospace",fontStyle:"italic",color:"aqua"}}>V - Music</h1>
+            <p style={{fontFamily:"monospace",fontStyle:"italic"}}>No matter what you are feeling, music can be your companion for any type of mood. Earlier we needed to listen to music on radio and television as walky-talky was also a thing once. However, times have changed now, we are living in an updated world where our mobile phones are a main source of entertainment as the top music apps have boosted their coverage in the world of music.</p>
+            
+                                 
+                                
+          </div>
+        </div>
+      )}
+      
+      {modal && (
+        <div className="modal">
+          <div onClick={togglemodal} className="overlay"></div>
+          <div className="modal-content">
+            <h1 style={{fontFamily:"monospace",fontStyle:"italic",color:"aqua"}}>Members</h1>
+            <ul>
+            <li style={{fontFamily:"monospace",fontStyle:"italic"}}>Vishnu KM</li>
+            <li style={{fontFamily:"monospace",fontStyle:"italic"}}>Vishnu B Dev</li>
+            <li style={{fontFamily:"monospace",fontStyle:"italic"}}>Vishnu KR</li>
+            <li style={{fontFamily:"monospace",fontStyle:"italic"}}>Vishnu Raju</li>            
+            </ul>                    
+          </div>
+        </div>
+      )}
       </>
   );
 }
