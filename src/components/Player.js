@@ -55,7 +55,7 @@ export default function MusicPlayerSlider(props) {
 //  =================================================================================
   const theme = useTheme();
   // const [duration,setDuration] = useState(0)
-  const [position, setPosition] = React.useState(32);
+  // const [position, setPosition] = React.useState(32);
 
 
 
@@ -85,6 +85,7 @@ export default function MusicPlayerSlider(props) {
     },
     [playing]
   );
+ 
   
   useEffect(()=>{
     audio.pause()
@@ -143,7 +144,7 @@ export default function MusicPlayerSlider(props) {
             </Typography>
           </Box>
         </Box>
-        <Slider
+         <Slider
           aria-label="time-indicator"
           size="small"
           value={audio.currentTime}
@@ -187,7 +188,7 @@ export default function MusicPlayerSlider(props) {
           }}
         >
           <TinyText>{formatDuration(audio.currentTime)}</TinyText>
-          <TinyText>{formatDuration(audio.duration )}</TinyText>
+          {/* <TinyText>{formatDuration(audio.duration )}</TinyText> */}
         </Box>
         <Box
           sx={{
