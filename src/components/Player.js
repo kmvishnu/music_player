@@ -215,7 +215,7 @@ export default function MusicPlayerSlider(props) {
           }}
         >
           <TinyText>{formatDuration(trackProgress)}</TinyText> 
-          <TinyText>{formatDuration(audio.duration)}</TinyText>
+          {!(isNaN(audio.duration)) && (<TinyText>{formatDuration(audio.duration)}</TinyText>)}
         </Box>
         
         <Box
