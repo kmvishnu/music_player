@@ -133,11 +133,11 @@ const togglemodal = () => {
       </Grid>
    
       {Modal && (
-        <div className="modal">
-          <div onClick={toggleModal} className="overlay"></div>
-          <div className="modal-content">
+        <div className="model">
+          <div onClick={toggleModal} className="overley"></div>
+          <div className="model-content">
             <h1 style={{fontFamily:"monospace",fontStyle:"italic",color:"aqua"}}>V - Music</h1>
-            <p style={{fontFamily:"monospace",fontStyle:"italic"}}>No matter what you are feeling, music can be your companion for any type of mood. Earlier we needed to listen to music on radio and television as walky-talky was also a thing once. However, times have changed now, we are living in an updated world where our mobile phones are a main source of entertainment as the top music apps have boosted their coverage in the world of music.</p>
+            <p style={{fontFamily:"monospace",fontStyle:"italic"}}>Life is a song... Sing it.</p>
             
                                  
                                 
@@ -146,9 +146,9 @@ const togglemodal = () => {
       )}
       
       {modal && (
-        <div className="modal">
-          <div onClick={togglemodal} className="overlay"></div>
-          <div className="modal-content">
+        <div className="model">
+          <div onClick={togglemodal} className="overley"></div>
+          <div className="model-content">
             <h1 style={{fontFamily:"monospace",fontStyle:"italic",color:"aqua"}}>Members</h1>
             <ul>
             <li style={{fontFamily:"monospace",fontStyle:"italic"}}>Vishnu KM</li>

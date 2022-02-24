@@ -11,7 +11,7 @@ import FastForwardRounded from '@mui/icons-material/FastForwardRounded';
 import FastRewindRounded from '@mui/icons-material/FastRewindRounded';
 import VolumeUpRounded from '@mui/icons-material/VolumeUpRounded';
 import VolumeDownRounded from '@mui/icons-material/VolumeDownRounded';
-import { useEffect,useState } from 'react';
+import { useEffect,useState, useRef } from 'react';
 
 const Widget = styled('div')(({ theme }) => ({
   padding: 16,
@@ -65,10 +65,30 @@ export default function MusicPlayerSlider(props) {
   const [change,setChange] = useState(true)
   const [volume,setVolume] = useState(0.5)
   const [cTime,setcTime] =useState(0)
-  const changecTime =(e)=>{
-    audio.currentTime = e
-    setcTime(e)
-  }
+  const [trackProgress, setTrackProgress] = useState(0);
+
+  const intervalRef = useRef();
+
+  const startTimer = () => {
+    // Clear any timers already running
+    clearInterval(intervalRef.current);
+
+    intervalRef.current = setInterval(() => {
+      if (audio.ended) {
+        nextSong();
+      } else {
+        setTrackProgress(audio.currentTime);
+      }
+    }, [1]);
+  };
+
+  const onScrub = (value) => {
+    // Clear any timers already running
+    clearInterval(intervalRef.current);
+    audio.currentTime = value;
+    setTrackProgress(audio.currentTime);
+  };
+
 
   useEffect(()=>{  
     if (change)
@@ -80,18 +100,25 @@ export default function MusicPlayerSlider(props) {
   },[change])
   
   const toggle = () => setPlaying(!playing);
+
   useEffect(() => {
-      playing ? audio.play() : audio.pause();
-    },
-    [playing]
-  );
+    if(playing){
+      audio.play();
+      startTimer();
+    }
+    else{
+      audio.pause();
+    }
+  },
+  [playing]
+ );
  
   
   useEffect(()=>{
     audio.pause()
     setPlaying(false)
     setAudio(new Audio(sound))
-    setcTime(0)
+    setTrackProgress(audio.currentTime);
     setChange(!change)
   },[currentSong])
   
@@ -144,14 +171,14 @@ export default function MusicPlayerSlider(props) {
             </Typography>
           </Box>
         </Box>
-         {/* <Slider
+         <Slider
           aria-label="time-indicator"
           size="small"
-          value={audio.currentTime}
+          value={trackProgress}
           min={0}
           step={1}
           max={audio.duration}
-          onChange={(e) =>changecTime(e.target.value)}
+          onChange={(e) => onScrub(e.target.value)}
           sx={{
             color: theme.palette.mode === 'dark' ? '#fff' : 'rgba(0,0,0,0.87)',
             height: 4,
@@ -178,7 +205,7 @@ export default function MusicPlayerSlider(props) {
               opacity: 0.28,
             },
           }}
-        /> */}
+        />
         <Box
           sx={{
             display: 'flex',
@@ -187,9 +214,10 @@ export default function MusicPlayerSlider(props) {
             mt: -2,
           }}
         >
-          {/* <TinyText>{formatDuration(audio.currentTime)}</TinyText> */}
-          {/* <TinyText>{formatDuration(audio.duration )}</TinyText> */}
+          <TinyText>{formatDuration(trackProgress)}</TinyText> 
+          <TinyText>{formatDuration(audio.duration)}</TinyText>
         </Box>
+        
         <Box
           sx={{
             display: 'flex',

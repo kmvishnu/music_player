@@ -1,15 +1,15 @@
-body.active-modal {
+body.active-model {
   overflow-y: hidden;
 }
 
-.btn-modal {
+.btn-model {
   padding: 10px 20px;
   display: block;
   margin: 100px auto 0;
   font-size: 18px;
 }
 
-.modal, .overlay {
+.model, .overley {
   width: 100vw;
   height: 100vh;
   top: 0;
@@ -20,10 +20,10 @@ body.active-modal {
  
 }
 
-.overlay {
+.overley {
   background: rgba(49,49,49,0.8);
 }
-.modal-content {
+.model-content {
   position: absolute;
   top: 50%;
   left: 30%;
