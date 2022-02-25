@@ -12,10 +12,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Signin/>}/>
         <Route path="/sidebar" element={<Auth><Sidebar/></Auth>}/>
-        <Route path="/signup" element={<Signup/>}/>
-        
+        <Route path="/signup" element={<Signup/>}/>   
       </Routes>
-   
     </div>
   );
 }

@@ -13,6 +13,7 @@ import VolumeUpRounded from '@mui/icons-material/VolumeUpRounded';
 import VolumeDownRounded from '@mui/icons-material/VolumeDownRounded';
 import { useEffect,useState, useRef } from 'react';
 
+
 const Widget = styled('div')(({ theme }) => ({
   padding: 16,
   borderRadius: 16,
@@ -47,48 +48,38 @@ const TinyText = styled(Typography)({
 });
 
 export default function MusicPlayerSlider(props) {
-  // PROPS
+
   const songs = props.songs
   const currentSong =props.currentSong
   const SetCurrentSong=props.SetCurrentSong
- 
-//  =================================================================================
   const theme = useTheme();
-  // const [duration,setDuration] = useState(0)
-  // const [position, setPosition] = React.useState(32);
-
-
 
   const sound = songs[currentSong].url
   const [audio,setAudio] = useState(new Audio(sound));
   const [playing, setPlaying] = useState(false);
   const [change,setChange] = useState(true)
   const [volume,setVolume] = useState(0.5)
-  const [cTime,setcTime] =useState(0)
   const [trackProgress, setTrackProgress] = useState(0);
 
   const intervalRef = useRef();
 
   const startTimer = () => {
-    // Clear any timers already running
     clearInterval(intervalRef.current);
-
     intervalRef.current = setInterval(() => {
       if (audio.ended) {
         nextSong();
       } else {
         setTrackProgress(audio.currentTime);
       }
-    }, [1]);
+    }, [100]);
   };
 
   const onScrub = (value) => {
-    // Clear any timers already running
     clearInterval(intervalRef.current);
     audio.currentTime = value;
     setTrackProgress(audio.currentTime);
+    startTimer()
   };
-
 
   useEffect(()=>{  
     if (change)
@@ -100,7 +91,7 @@ export default function MusicPlayerSlider(props) {
   },[change])
   
   const toggle = () => setPlaying(!playing);
-
+  
   useEffect(() => {
     if(playing){
       audio.play();
@@ -142,14 +133,11 @@ export default function MusicPlayerSlider(props) {
     theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)';
   audio.volume = volume
 
-  // console.log("current time ",audio.currentTime)
-  // console.log("current duration ",audio.duration)
+ 
 
   return (
    
     <div >
-      
-   
     <Box sx={{ width: '100%', overflow: 'hidden' }} >
       <Widget>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>

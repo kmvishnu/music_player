@@ -23,6 +23,7 @@ export const rootReducer = (state = INITIAL_STATE,action) =>{
     case CLICKED:
       return {...state,clickedPlay:action.payload}
 
+
     default:
       return state
   }

@@ -22,17 +22,17 @@ import Table from './Table'
 import Search from './Search'
 import { useState,useEffect } from 'react';
 import axios from 'axios';
-import AddIcon from '@mui/icons-material/Add';
 import { useDispatch, useSelector } from 'react-redux';
-import { AUTH, SHOWFAV } from '../store/constants/storeConstants';
+import { ADDPLAY, AUTH, SHOWFAV } from '../store/constants/storeConstants';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { red } from '@mui/material/colors';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import { useNavigate } from 'react-router';
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import QueueMusicIcon from '@mui/icons-material/QueueMusic';
 import { CLICKED } from '../store/constants/storeConstants';
 import HomeIcon from '@mui/icons-material/Home';
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import Button from '@mui/material/Button';
+
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -111,8 +111,22 @@ export default function MiniDrawer() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const showFav =useSelector(state=>state.showFav)
+  
+
   const [visible,setVisible] = useState(false)
   console.log("details",UserDetails)
+
+  const closePlay = (index) => {
+    console.log(index)
+    UserDetails.playlist.splice(index,1)
+    console.log("after removing",UserDetails.playlist)
+    dispatch({type:ADDPLAY,payload:UserDetails.playlist})
+    let f2 = {"email":UserDetails.email,"playlist":UserDetails['playlist']}
+    axios.put("http://127.0.0.1:5001/addPlaylist",f2).then((response)=>{
+    }).catch(error=>console.log(error))
+
+
+  }
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -195,6 +209,9 @@ export default function MiniDrawer() {
             <ListItem button onClick={()=>dispatch({type:CLICKED,payload:index})} key={text[0]}>
 
               <ListItemText primary={text[0]} />
+              <Button onClick={()=>closePlay(index)}>
+                 <CloseOutlinedIcon/>
+              </Button>
               </ListItem>
               </li>
           ))}
