@@ -32,6 +32,8 @@ import { CLICKED } from '../store/constants/storeConstants';
 import HomeIcon from '@mui/icons-material/Home';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import Button from '@mui/material/Button';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+
 
 const drawerWidth = 240;
 
@@ -169,7 +171,7 @@ export default function MiniDrawer() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-          V-MUSIC
+            V-MUSIC
           </Typography>
         </Toolbar>
       </AppBar>
@@ -179,6 +181,18 @@ export default function MiniDrawer() {
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
+        <Divider />
+            <List>
+              {[["Hi, "+UserDetails.name,<AccountCircleOutlinedIcon />]].map((text, index) => (
+                <ListItem key={text[0]}>
+                  <ListItemIcon>
+                    {text[1]}
+                  </ListItemIcon>
+                  <ListItemText primary={text[0]} />
+                  </ListItem>
+              ))}
+            </List>
+        
         <Divider />
         <List>
           {[['Favourites',(showFav)?<FavoriteIcon style={{ color: red[500]}}/>:<FavoriteBorderIcon/>,()=>dispatch({type:SHOWFAV,payload:!showFav})],['Home', <HomeIcon/>,()=>dispatch({type:CLICKED,payload:''})],['Log Out',<PowerSettingsNewIcon/>,()=>{dispatch({type:AUTH,payload:false}) ; navigate("/")}]].map((text, index) => (
